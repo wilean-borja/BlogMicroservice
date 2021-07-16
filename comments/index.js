@@ -1,11 +1,13 @@
 const express = require('express');
 const { randomBytes } = require('crypto');
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(cors());
 
 // comments stored in an object
 // 1. look at Id of the post

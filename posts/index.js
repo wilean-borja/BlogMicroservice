@@ -1,6 +1,7 @@
 const express = require('express');
 // const bodyParser = require('body-parser'); deprecated
 const { randomBytes } = require('crypto'); // will generate random id for each post
+const cors = require('cors');
 
 const app = express();
 // app.use(bodyParser.json()); deprecated
@@ -8,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
+app.use(cors());
 
 // this object will store every post we will create
 const posts = {};
