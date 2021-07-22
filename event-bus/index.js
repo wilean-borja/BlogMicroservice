@@ -1,6 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-//const cors = require("cors");
 
 const app = express();
 app.use(express.json());
@@ -9,7 +8,6 @@ app.use(
     extended: true,
   })
 );
-//app.use(cors());
 
 app.post("/events", (req, res) => {
   events = req.body;

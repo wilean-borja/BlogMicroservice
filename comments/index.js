@@ -22,7 +22,7 @@ app.get("/posts/:id/comments", (req, res) => {
   res.send(commentsByPostId[req.params.id] || []);
 });
 
-app.post("/posts/:id/comments", (req, res) => {
+app.post("/posts/:id/comments", async (req, res) => {
   // generate random Id, will be converted to a hexadecimal string
   const commentId = randomBytes(4).toString("hex");
 
@@ -41,7 +41,7 @@ app.post("/posts/:id/comments", (req, res) => {
   commentsByPostId[req.params.id] = comments;
 
   // emit event to event bus
-  axios.post("http://localhost:4005/events", {
+  await axios.post("http://localhost:4005/events", {
     type: "CommentCreated",
     data: {
       id: commentId,
