@@ -56,9 +56,42 @@ app.post("/posts/:id/comments", async (req, res) => {
 });
 
 // endpoint to receive events from the event bus
-app.post("/events", (req, res) => {
+app.post("/events", async (req, res) => {
   console.log("Event Received:", req.body.type);
 
+  const { type, data } = req.body;
+
+  if (type === "CommentModerated") {
+    // pull out the comment we already have inside the CommentByPostId so we need to find the appropriate comment stored inside of here and update its status property
+    const { id, postId, status, content } = data;
+
+    const comments = commentsByPostId[postId];
+
+    // find the comment you want to update
+    const comment = comments.find((comment) => {
+      return comment.id === id;
+    });
+    // update status
+    comment.status = status;
+
+    /* CommentUpdated schema:
+        id: string,
+        content: string,
+        postId: string,
+        status: 'Approved' | 'Rejected'
+     */
+
+    // emit the event to the event bus
+    await axios.post("http://localhost:4005/events", {
+      type: "CommentUpdated",
+      data: {
+        id,
+        status,
+        postId,
+        content,
+      },
+    });
+  }
   res.send({});
 });
 

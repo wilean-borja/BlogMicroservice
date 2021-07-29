@@ -9,6 +9,16 @@ app.use(
   })
 );
 
+/*
+  CommentModerated schema:
+    id: string
+    content: string,
+    postId: string,
+    status: Approved' | 'Rejected'
+
+    Note: emitted when the moderation service moderates a comment
+*/
+
 app.post("/events", async (req, res) => {
   const { type, data } = req.body;
 
