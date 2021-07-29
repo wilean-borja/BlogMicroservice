@@ -45,13 +45,14 @@ app.post("/events", (req, res) => {
 
   if (type === "CommentCreated") {
     // take id, content and postId out of data
-    const { id, content, postId } = data;
+    // status property was added when moderation service was created
+    const { id, content, postId, status } = data;
 
     // find the appropriate post inside the post object
     const post = posts[postId];
 
     // push new comment with a given id and some content
-    post.comments.push({ id, content });
+    post.comments.push({ id, content, status });
   }
 
   console.log(posts);

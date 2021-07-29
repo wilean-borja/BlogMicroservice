@@ -35,7 +35,8 @@ app.post("/posts/:id/comments", async (req, res) => {
 
   // will push the created comment into comments array ^
   // will push id: commentId and content that user provided
-  comments.push({ id: commentId, content });
+  // added status property when moderation service was implemented
+  comments.push({ id: commentId, content, status: "Pending" });
 
   // assign comments array back to the post commentByPostId object
   commentsByPostId[req.params.id] = comments;
@@ -47,6 +48,7 @@ app.post("/posts/:id/comments", async (req, res) => {
       id: commentId,
       content,
       postId: req.params.id,
+      status: "Pending",
     },
   });
 
